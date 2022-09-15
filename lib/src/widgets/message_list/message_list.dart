@@ -66,6 +66,7 @@ class _MessageListState extends State<MessageList> {
                   controller: scrollController,
                   reverse: true,
                   itemCount: widget.messages.length,
+                  padding: widget.messageListOptions.listPadding,
                   itemBuilder: (BuildContext context, int i) {
                     final ChatMessage? previousMessage =
                         i < widget.messages.length - 1
