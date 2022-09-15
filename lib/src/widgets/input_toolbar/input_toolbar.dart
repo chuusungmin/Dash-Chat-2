@@ -85,7 +85,7 @@ class _InputToolbarState extends State<InputToolbar> {
                               if (widget.inputOptions.onTextChange != null) {
                                 widget.inputOptions.onTextChange!(value);
                               }
-                              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                              WidgetsBinding.instance?.addPostFrameCallback((_) async {
                                 if (widget.inputOptions.onMention != null) {
                                   await _checkMentions(value);
                                 }
