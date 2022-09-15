@@ -30,8 +30,7 @@ class _InputToolbarState extends State<InputToolbar> {
 
   @override
   void initState() {
-    textController =
-        widget.inputOptions.textController ?? TextEditingController();
+    textController = widget.inputOptions.textController ?? TextEditingController();
     super.initState();
   }
 
@@ -52,61 +51,61 @@ class _InputToolbarState extends State<InputToolbar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (widget.inputOptions.leading != null)
-              ...widget.inputOptions.leading!,
-            Expanded(
-              child: Directionality(
-                textDirection: widget.inputOptions.inputTextDirection,
-                child: TextField(
-                  focusNode: widget.inputOptions.focusNode,
-                  controller: textController,
-                  enabled: !widget.inputOptions.inputDisabled,
-                  textCapitalization: widget.inputOptions.textCapitalization,
-                  textInputAction: widget.inputOptions.textInputAction,
-                  decoration: widget.inputOptions.inputDecoration ??
-                      defaultInputDecoration(),
-                  maxLength: widget.inputOptions.maxInputLength,
-                  minLines: 1,
-                  maxLines: widget.inputOptions.sendOnEnter
-                      ? 1
-                      : widget.inputOptions.inputMaxLines,
-                  cursorColor: widget.inputOptions.cursorStyle.color,
-                  cursorWidth: widget.inputOptions.cursorStyle.width,
-                  showCursor: !widget.inputOptions.cursorStyle.hide,
-                  style: widget.inputOptions.inputTextStyle,
-                  onSubmitted: (String value) {
-                    if (widget.inputOptions.sendOnEnter) {
-                      _sendMessage();
-                    }
-                  },
-                  onChanged: (String value) async {
-                    setState(() {});
-                    if (widget.inputOptions.onTextChange != null) {
-                      widget.inputOptions.onTextChange!(value);
-                    }
-                    WidgetsBinding.instance.addPostFrameCallback((_) async {
-                      if (widget.inputOptions.onMention != null) {
-                        await _checkMentions(value);
-                      }
-                    });
-                  },
-                  autocorrect: widget.inputOptions.autocorrect,
-                ),
-              ),
-            ),
-            if (widget.inputOptions.trailing != null &&
-                widget.inputOptions.showTraillingBeforeSend)
-              ...widget.inputOptions.trailing!,
-            if (widget.inputOptions.alwaysShowSend ||
-                textController.text.isNotEmpty)
-              widget.inputOptions.sendButtonBuilder != null
-                  ? widget.inputOptions.sendButtonBuilder!(_sendMessage)
-                  : defaultSendButton(color: Theme.of(context).primaryColor)(
-                      _sendMessage,
-                    ),
-            if (widget.inputOptions.trailing != null &&
-                !widget.inputOptions.showTraillingBeforeSend)
-              ...widget.inputOptions.trailing!,
+            if (widget.inputOptions.leading != null) ...widget.inputOptions.leading!,
+            Container(
+                decoration: widget.inputOptions.inputContainerStyle,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Directionality(
+                          textDirection: widget.inputOptions.inputTextDirection,
+                          child: TextField(
+                            focusNode: widget.inputOptions.focusNode,
+                            controller: textController,
+                            enabled: !widget.inputOptions.inputDisabled,
+                            textCapitalization: widget.inputOptions.textCapitalization,
+                            textInputAction: widget.inputOptions.textInputAction,
+                            decoration: widget.inputOptions.inputDecoration ?? defaultInputDecoration(),
+                            maxLength: widget.inputOptions.maxInputLength,
+                            minLines: 1,
+                            maxLines: widget.inputOptions.sendOnEnter ? 1 : widget.inputOptions.inputMaxLines,
+                            cursorColor: widget.inputOptions.cursorStyle.color,
+                            cursorWidth: widget.inputOptions.cursorStyle.width,
+                            showCursor: !widget.inputOptions.cursorStyle.hide,
+                            style: widget.inputOptions.inputTextStyle,
+                            onSubmitted: (String value) {
+                              if (widget.inputOptions.sendOnEnter) {
+                                _sendMessage();
+                              }
+                            },
+                            onChanged: (String value) async {
+                              setState(() {});
+                              if (widget.inputOptions.onTextChange != null) {
+                                widget.inputOptions.onTextChange!(value);
+                              }
+                              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                if (widget.inputOptions.onMention != null) {
+                                  await _checkMentions(value);
+                                }
+                              });
+                            },
+                            autocorrect: widget.inputOptions.autocorrect,
+                          ),
+                        ),
+                      ),
+                      if (widget.inputOptions.trailing != null && widget.inputOptions.showTraillingBeforeSend)
+                        ...widget.inputOptions.trailing!,
+                      if (widget.inputOptions.alwaysShowSend || textController.text.isNotEmpty)
+                        widget.inputOptions.sendButtonBuilder != null
+                            ? widget.inputOptions.sendButtonBuilder!(_sendMessage)
+                            : defaultSendButton(color: Theme.of(context).primaryColor)(
+                                _sendMessage,
+                              ),
+                      if (widget.inputOptions.trailing != null && !widget.inputOptions.showTraillingBeforeSend)
+                        ...widget.inputOptions.trailing!,
+                    ]))
           ],
         ),
       ),
@@ -157,11 +156,9 @@ class _InputToolbarState extends State<InputToolbar> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset topLeftCornerOffset = renderBox.localToGlobal(Offset.zero);
 
-    double bottomPosition =
-        MediaQuery.of(context).size.height - topLeftCornerOffset.dy;
+    double bottomPosition = MediaQuery.of(context).size.height - topLeftCornerOffset.dy;
     if (widget.inputOptions.inputToolbarMargin != null) {
-      bottomPosition -= widget.inputOptions.inputToolbarMargin!.top -
-          widget.inputOptions.inputToolbarMargin!.bottom;
+      bottomPosition -= widget.inputOptions.inputToolbarMargin!.top - widget.inputOptions.inputToolbarMargin!.bottom;
     }
 
     _clearOverlay();

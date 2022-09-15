@@ -27,6 +27,7 @@ class InputOptions {
     this.inputToolbarMargin = const EdgeInsets.only(top: 8.0),
     this.cursorStyle = const CursorStyle(),
     this.autocorrect = true,
+    this.inputContainerStyle
   });
 
   /// Function to call when a mention is triggered in the input,
@@ -107,4 +108,7 @@ class InputOptions {
 
   /// Whether to enable autocorrection. Defaults to true.
   final bool autocorrect;
+
+  /// Style of input container(TextField, sendButton and trailing)
+  final BoxDecoration? inputContainerStyle;
 }
