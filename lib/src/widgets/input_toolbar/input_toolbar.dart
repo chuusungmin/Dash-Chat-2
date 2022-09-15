@@ -54,6 +54,8 @@ class _InputToolbarState extends State<InputToolbar> {
             if (widget.inputOptions.leading != null) ...widget.inputOptions.leading!,
             Expanded(
               child: Container(
+                  margin: widget.inputOptions.inputContainerMargin,
+                  padding: widget.inputOptions.inputContainerPadding,
                   decoration: widget.inputOptions.inputContainerStyle,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
