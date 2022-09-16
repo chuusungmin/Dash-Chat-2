@@ -29,7 +29,8 @@ class InputOptions {
     this.autocorrect = true,
     this.inputContainerStyle,
     this.inputContainerMargin,
-    this.inputContainerPadding
+    this.inputContainerPadding,
+    this.inputToolbarBuilder
   });
 
   /// Function to call when a mention is triggered in the input,
@@ -119,4 +120,7 @@ class InputOptions {
 
   /// Padding of the input container
   final EdgeInsets? inputContainerPadding;
+
+  /// Builder to create your own widget in input toolbar area
+  final Widget Function()? inputToolbarBuilder;
 }

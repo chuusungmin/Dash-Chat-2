@@ -43,76 +43,78 @@ class _InputToolbarState extends State<InputToolbar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        padding: widget.inputOptions.inputToolbarPadding,
-        margin: widget.inputOptions.inputToolbarMargin,
-        decoration: widget.inputOptions.inputToolbarStyle,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            if (widget.inputOptions.leading != null) ...widget.inputOptions.leading!,
-            Expanded(
-              child: Container(
-                  margin: widget.inputOptions.inputContainerMargin,
-                  padding: widget.inputOptions.inputContainerPadding,
-                  decoration: widget.inputOptions.inputContainerStyle,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Directionality(
-                            textDirection: widget.inputOptions.inputTextDirection,
-                            child: TextField(
-                              focusNode: widget.inputOptions.focusNode,
-                              controller: textController,
-                              enabled: !widget.inputOptions.inputDisabled,
-                              textCapitalization: widget.inputOptions.textCapitalization,
-                              textInputAction: widget.inputOptions.textInputAction,
-                              decoration: widget.inputOptions.inputDecoration ?? defaultInputDecoration(),
-                              maxLength: widget.inputOptions.maxInputLength,
-                              minLines: 1,
-                              maxLines: widget.inputOptions.sendOnEnter ? 1 : widget.inputOptions.inputMaxLines,
-                              cursorColor: widget.inputOptions.cursorStyle.color,
-                              cursorWidth: widget.inputOptions.cursorStyle.width,
-                              showCursor: !widget.inputOptions.cursorStyle.hide,
-                              style: widget.inputOptions.inputTextStyle,
-                              onSubmitted: (String value) {
-                                if (widget.inputOptions.sendOnEnter) {
-                                  _sendMessage();
-                                }
-                              },
-                              onChanged: (String value) async {
-                                setState(() {});
-                                if (widget.inputOptions.onTextChange != null) {
-                                  widget.inputOptions.onTextChange!(value);
-                                }
-                                WidgetsBinding.instance?.addPostFrameCallback((_) async {
-                                  if (widget.inputOptions.onMention != null) {
-                                    await _checkMentions(value);
-                                  }
-                                });
-                              },
-                              autocorrect: widget.inputOptions.autocorrect,
-                            ),
-                          ),
-                        ),
-                        if (widget.inputOptions.trailing != null && widget.inputOptions.showTraillingBeforeSend)
-                          ...widget.inputOptions.trailing!,
-                        if (widget.inputOptions.alwaysShowSend || textController.text.isNotEmpty)
-                          widget.inputOptions.sendButtonBuilder != null
-                              ? widget.inputOptions.sendButtonBuilder!(_sendMessage)
-                              : defaultSendButton(color: Theme.of(context).primaryColor)(
-                            _sendMessage,
-                          ),
-                        if (widget.inputOptions.trailing != null && !widget.inputOptions.showTraillingBeforeSend)
-                          ...widget.inputOptions.trailing!,
-                      ]))
-            )
-          ],
-        ),
-      ),
+      child: widget.inputOptions.inputToolbarBuilder != null
+          ? widget.inputOptions.inputToolbarBuilder!()
+          : Container(
+              padding: widget.inputOptions.inputToolbarPadding,
+              margin: widget.inputOptions.inputToolbarMargin,
+              decoration: widget.inputOptions.inputToolbarStyle,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  if (widget.inputOptions.leading != null) ...widget.inputOptions.leading!,
+                  Expanded(
+                      child: Container(
+                          margin: widget.inputOptions.inputContainerMargin,
+                          padding: widget.inputOptions.inputContainerPadding,
+                          decoration: widget.inputOptions.inputContainerStyle,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Directionality(
+                                    textDirection: widget.inputOptions.inputTextDirection,
+                                    child: TextField(
+                                      focusNode: widget.inputOptions.focusNode,
+                                      controller: textController,
+                                      enabled: !widget.inputOptions.inputDisabled,
+                                      textCapitalization: widget.inputOptions.textCapitalization,
+                                      textInputAction: widget.inputOptions.textInputAction,
+                                      decoration: widget.inputOptions.inputDecoration ?? defaultInputDecoration(),
+                                      maxLength: widget.inputOptions.maxInputLength,
+                                      minLines: 1,
+                                      maxLines: widget.inputOptions.sendOnEnter ? 1 : widget.inputOptions.inputMaxLines,
+                                      cursorColor: widget.inputOptions.cursorStyle.color,
+                                      cursorWidth: widget.inputOptions.cursorStyle.width,
+                                      showCursor: !widget.inputOptions.cursorStyle.hide,
+                                      style: widget.inputOptions.inputTextStyle,
+                                      onSubmitted: (String value) {
+                                        if (widget.inputOptions.sendOnEnter) {
+                                          _sendMessage();
+                                        }
+                                      },
+                                      onChanged: (String value) async {
+                                        setState(() {});
+                                        if (widget.inputOptions.onTextChange != null) {
+                                          widget.inputOptions.onTextChange!(value);
+                                        }
+                                        WidgetsBinding.instance?.addPostFrameCallback((_) async {
+                                          if (widget.inputOptions.onMention != null) {
+                                            await _checkMentions(value);
+                                          }
+                                        });
+                                      },
+                                      autocorrect: widget.inputOptions.autocorrect,
+                                    ),
+                                  ),
+                                ),
+                                if (widget.inputOptions.trailing != null && widget.inputOptions.showTraillingBeforeSend)
+                                  ...widget.inputOptions.trailing!,
+                                if (widget.inputOptions.alwaysShowSend || textController.text.isNotEmpty)
+                                  widget.inputOptions.sendButtonBuilder != null
+                                      ? widget.inputOptions.sendButtonBuilder!(_sendMessage)
+                                      : defaultSendButton(color: Theme.of(context).primaryColor)(
+                                          _sendMessage,
+                                        ),
+                                if (widget.inputOptions.trailing != null &&
+                                    !widget.inputOptions.showTraillingBeforeSend)
+                                  ...widget.inputOptions.trailing!,
+                              ])))
+                ],
+              ),
+            ),
     );
   }
 
