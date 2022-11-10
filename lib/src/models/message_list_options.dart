@@ -14,7 +14,8 @@ class MessageListOptions {
     this.onLoadEarlier,
     this.typingBuilder,
     this.scrollPhysics,
-    this.listPadding
+    this.listPadding,
+    this.keyboardDismissBehavior
   });
 
   /// If you want to who a date separator between messages of different dates
@@ -56,6 +57,9 @@ class MessageListOptions {
 
   /// Padding of list
   final EdgeInsets? listPadding;
+
+  /// Scroll view keyboard dismiss behavior
+  final ScrollViewKeyboardDismissBehavior? keyboardDismissBehavior;
 }
 
 enum SeparatorFrequency { days, hours }

@@ -67,6 +67,8 @@ class _MessageListState extends State<MessageList> {
                   reverse: true,
                   itemCount: widget.messages.length,
                   padding: widget.messageListOptions.listPadding,
+                  keyboardDismissBehavior:
+                      widget.messageListOptions.keyboardDismissBehavior ?? ScrollViewKeyboardDismissBehavior.manual,
                   itemBuilder: (BuildContext context, int i) {
                     final ChatMessage? previousMessage =
                         i < widget.messages.length - 1
