@@ -64,7 +64,7 @@ class _MessageListState extends State<MessageList> {
                 child: ListView.builder(
                   physics: widget.messageListOptions.scrollPhysics,
                   controller: scrollController,
-                  reverse: true,
+                  reverse: widget.messageListOptions.reverse ?? true,
                   itemCount: widget.messages.length,
                   padding: widget.messageListOptions.listPadding,
                   keyboardDismissBehavior:
