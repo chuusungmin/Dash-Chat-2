@@ -34,7 +34,7 @@ class MessageListOptions {
   final SeparatorFrequency separatorFrequency;
 
   /// Scroll controller of the list of message
-  final ScrollController? scrollController;
+  final FlutterListViewController? scrollController;
 
   /// A widget to show at the bottom of the chat
   /// (between the input and the chat content)
